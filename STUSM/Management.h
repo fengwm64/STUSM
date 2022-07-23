@@ -11,15 +11,15 @@ class Management
 {
 public:
 	Management();				//构造
-	~Management();				//析构
+	~Management();			//析构
 
 	int GetCount();				//返回容器内已经添加的人数
 
 	//-----------------------对容器的操作----------------------
 	void AddData(Student);					//学生成绩数据的增加
-	void DeleteData(int n);					//学生成绩数据的删除
-	void EditData(Student obj, int n);	//学生成绩数据的修改
-	void SortDataM();							//学生成绩数据的排序(按高数)
+	void DeleteData(int n);						//学生成绩数据的删除
+	void EditData(Student obj, int n);		//学生成绩数据的修改
+	void SortDataM();								//学生成绩数据的排序(按高数)
 	void SortDataC();								//学生成绩数据的排序(按面向对象)
 
 
