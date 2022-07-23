@@ -64,14 +64,9 @@ BEGIN_MESSAGE_MAP(CSTUSMDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_EN_CHANGE(IDC_EDIT_Account, &CSTUSMDlg::OnEnChangeEditAccount)
-	ON_EN_SETFOCUS(IDC_EDIT_Account, &CSTUSMDlg::OnEnSetfocusEditAccount)
-	ON_EN_SETFOCUS(IDC_EDIT_Password, &CSTUSMDlg::OnEnSetfocusEditPassword)
-	ON_EN_CHANGE(IDC_EDIT_Password, &CSTUSMDlg::OnEnChangeEditPassword)
 	ON_BN_CLICKED(IDC_MFCBUTTON_Login, &CSTUSMDlg::OnBnClickedMfcbuttonLogin)
 	ON_BN_CLICKED(IDC_CHECK_Remember, &CSTUSMDlg::OnBnClickedCheckRemember)
 	ON_WM_CTLCOLOR()
-	ON_BN_CLICKED(IDC_BUTTON1, &CSTUSMDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -107,7 +102,7 @@ BOOL CSTUSMDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO:  在此添加额外的初始化代码
-	GetDlgItem(IDC_EDIT_Account)->SetWindowText(_T("请输入教工号或学号"));
+	
 
 	//------------更改按钮背景色、文本色-------------
 	M_login.m_bDontUseWinXPTheme = TRUE;
@@ -181,45 +176,6 @@ HCURSOR CSTUSMDlg::OnQueryDragIcon()
 }
 
 
-
-void CSTUSMDlg::OnEnChangeEditAccount()
-{
-	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-	// 发送此通知，除非重写 CDialogEx::OnInitDialog()
-	// 函数并调用 CRichEditCtrl().SetEventMask()，
-	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-
-	// TODO:  在此添加控件通知处理程序代码
-}
-
-
-void CSTUSMDlg::OnEnSetfocusEditAccount()
-{
-	// TODO:  在此添加控件通知处理程序代码
-	CString temp;
-	GetDlgItemText(IDC_EDIT_Account, temp);
-	if (temp == _T("请输入教工号或学号"))
-		SetDlgItemText(IDC_EDIT_Account, __T(""));
-}
-
-
-void CSTUSMDlg::OnEnSetfocusEditPassword()
-{
-	// TODO:  在此添加控件通知处理程序代码
-}
-
-
-void CSTUSMDlg::OnEnChangeEditPassword()
-{
-	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-	// 发送此通知，除非重写 CDialogEx::OnInitDialog()
-	// 函数并调用 CRichEditCtrl().SetEventMask()，
-	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-
-	// TODO:  在此添加控件通知处理程序代码
-}
-
-
 //Account
 CString ACC = _T("32116160100");
 //Password
@@ -259,7 +215,7 @@ void CSTUSMDlg::OnBnClickedCheckRemember()
 {
 	// TODO:  在此添加控件通知处理程序代码
 	SetDlgItemText(IDC_EDIT_Account, ACC);
-	SetDlgItemText(IDC_EDIT_Password, ACC);
+	SetDlgItemText(IDC_EDIT_Password, PAS);
 }
 
 
@@ -282,12 +238,4 @@ HBRUSH CSTUSMDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)//将静态文本设
 		return (HBRUSH) ::GetStockObject(NULL_BRUSH);
 	}
 
-}
-
-
-void CSTUSMDlg::OnBnClickedButton1()//test
-{
-	GetDlgItem(IDC_EDIT_Account)->SetWindowText(_T("32116160100"));
-	GetDlgItem(IDC_EDIT_Password)->SetWindowText(_T("gzhucs"));
-	CSTUSMDlg::OnBnClickedMfcbuttonLogin();
 }

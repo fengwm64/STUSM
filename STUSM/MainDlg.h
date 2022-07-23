@@ -40,7 +40,6 @@ public:
 	afx_msg void OnBnClickedRadioWoman();
 	afx_msg void OnBnClickedButtonEdit();
 	afx_msg void OnBnClickedButtonDelete();
-	afx_msg void OnBnClickedButton1();
 	afx_msg void OnBnClickedButtonSort();
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg void OnBnClickedButtonOpen();

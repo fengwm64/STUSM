@@ -31,14 +31,9 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnEnChangeEditAccount();
-	afx_msg void OnEnSetfocusEditAccount();
-	afx_msg void OnEnSetfocusEditPassword();
-	afx_msg void OnEnChangeEditPassword();
 	afx_msg void OnBnClickedMfcbuttonLogin();
 	CMFCButton M_login;
 	afx_msg void OnBnClickedCheckRemember();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg void OnBnClickedButton1();
 };
 
