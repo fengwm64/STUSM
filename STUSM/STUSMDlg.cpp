@@ -50,7 +50,7 @@ END_MESSAGE_MAP()
 CSTUSMDlg::CSTUSMDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CSTUSMDlg::IDD, pParent)
 {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON_login);
 }
 
 void CSTUSMDlg::DoDataExchange(CDataExchange* pDX)

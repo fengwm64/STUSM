@@ -137,5 +137,14 @@
     <Image Include="res\login-bg.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\icon2.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\logo.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\login.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
