@@ -125,5 +125,11 @@
     <Image Include="res\main_bg.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="C:\Users\LinFeng\Desktop\score.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="C:\Users\LinFeng\Desktop\score.png">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

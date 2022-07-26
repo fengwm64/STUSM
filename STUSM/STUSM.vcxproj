@@ -134,6 +134,8 @@
     <Image Include="C:\Users\DREAM\Desktop\login-icon.png" />
     <Image Include="C:\Users\DREAM\Desktop\password-icon.png" />
     <Image Include="C:\Users\DREAM\Desktop\user-icon.png" />
+    <Image Include="C:\Users\LinFeng\Desktop\score.bmp" />
+    <Image Include="C:\Users\LinFeng\Desktop\score.png" />
     <Image Include="res\bitmap1.bmp" />
     <Image Include="res\bitmap6.bmp" />
     <Image Include="res\icon1.ico" />

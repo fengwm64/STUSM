@@ -1,5 +1,4 @@
 // MainDlg.cpp : 实现文件
-//
 
 #include "stdafx.h"
 #include "STUSM.h"
@@ -55,6 +54,7 @@ BEGIN_MESSAGE_MAP(MainDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_Sort, &MainDlg::OnBnClickedButtonSort)
 	ON_BN_CLICKED(IDC_BUTTON_Save, &MainDlg::OnBnClickedButtonSave)
 	ON_BN_CLICKED(IDC_BUTTON_Open, &MainDlg::OnBnClickedButtonOpen)
+	ON_BN_CLICKED(IDC_BUTTON_StatisGraph, &MainDlg::OnBnClickedButtonStatisgraph)
 END_MESSAGE_MAP()
 
 
@@ -142,7 +142,6 @@ BOOL MainDlg::OnInitDialog()
 	return TRUE;	// return TRUE unless you set the focus to a control
 						// 异常:  OCX 属性页应返回 FALSE
 }
-
 
 
 void MainDlg::OnBnClickedButtonAll()//点击“全选”按钮
@@ -432,7 +431,6 @@ void MainDlg::OnBnClickedButtonSave()
 	
 }
 
-
 void MainDlg::OnBnClickedButtonOpen()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -484,4 +482,9 @@ void MainDlg::OnBnClickedButtonOpen()
 	int nCount = m_List.GetItemCount();
 	STU.Format(_T("%d"), nCount);
 	SetDlgItemText(IDC_EDIT_STU, STU);
+}
+
+void MainDlg::OnBnClickedButtonStatisgraph()
+{
+	// TODO: 在此添加控件通知处理程序代码
 }

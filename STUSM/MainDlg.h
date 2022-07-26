@@ -43,4 +43,5 @@ public:
 	afx_msg void OnBnClickedButtonSort();
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg void OnBnClickedButtonOpen();
+	afx_msg void OnBnClickedButtonStatisgraph();
 };
