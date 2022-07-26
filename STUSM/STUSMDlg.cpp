@@ -1,5 +1,4 @@
 // STUSMDlg.cpp : 实现文件
-//
 
 #include "stdafx.h"
 #include "STUSM.h"

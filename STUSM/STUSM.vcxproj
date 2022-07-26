@@ -140,12 +140,14 @@
     <Image Include="res\bitmap6.bmp" />
     <Image Include="res\icon1.ico" />
     <Image Include="res\login-bg-2-gz.bmp" />
+    <Image Include="res\login-bg.bmp" />
     <Image Include="res\login-icon.png" />
     <Image Include="res\logo-gz.ico" />
     <Image Include="res\main_bg.bmp" />
     <Image Include="res\password-icon.bmp" />
     <Image Include="res\password-icon.ico" />
     <Image Include="res\password-icon.png" />
+    <Image Include="res\score.bmp" />
     <Image Include="res\STUSM.ico" />
     <Image Include="res\user-icon.bmp" />
     <Image Include="res\user-icon.ico" />
