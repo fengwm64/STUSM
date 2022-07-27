@@ -13,6 +13,12 @@ public:
 	CString Class;
 	CString Name;
 	CString Sex;
+
 	double maths;//高等数学的成绩
+	CString mathsD;
+	CString mathsT;
+
 	double CPP;//面向对象程序设计
+	CString CPPD;
+	CString CPPT;
 };

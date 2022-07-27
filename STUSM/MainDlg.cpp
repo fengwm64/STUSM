@@ -8,11 +8,8 @@
 #include "Management.h"
 
 //声明全局变量
-Management ManagerSystem;
-
-
-
-
+Management ManagerSystem;	//管理系统的对象
+int SortID;	//	用于观察当前列表状态（正常/按高数/按CPP）
 
 // MainDlg 对话框
 
@@ -40,7 +37,6 @@ void MainDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_Show, m_List);
-
 	DDX_Text(pDX, IDC_EDIT_Num, m_Num);
 	DDX_Text(pDX, IDC_EDIT_Name, m_Name);
 	DDX_Text(pDX, IDC_EDIT_Class, m_Class);
@@ -58,58 +54,26 @@ BEGIN_MESSAGE_MAP(MainDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_Others, &MainDlg::OnBnClickedButtonOthers)
 	ON_BN_CLICKED(IDC_MFCBUTTON_Add, &MainDlg::OnBnClickedMfcbuttonAdd)
 	ON_WM_PAINT()
-	ON_BN_CLICKED(IDC_RADIO_Gra1, &MainDlg::OnBnClickedRadioGra1)
-	ON_BN_CLICKED(IDC_RADIO_Gra2, &MainDlg::OnBnClickedRadioGra2)
-	ON_BN_CLICKED(IDC_RADIO_Gra3, &MainDlg::OnBnClickedRadioGra3)
-	ON_BN_CLICKED(IDC_RADIO_Gra4, &MainDlg::OnBnClickedRadioGra4)
 	ON_BN_CLICKED(IDC_RADIO_maths, &MainDlg::OnBnClickedRadiomaths)
 	ON_BN_CLICKED(IDC_RADIO_CPP, &MainDlg::OnBnClickedRadioCpp)
-	ON_BN_CLICKED(IDC_RADIO_Man, &MainDlg::OnBnClickedRadioMan)
-	ON_BN_CLICKED(IDC_RADIO_Woman, &MainDlg::OnBnClickedRadioWoman)
 	ON_BN_CLICKED(IDC_BUTTON_Edit, &MainDlg::OnBnClickedButtonEdit)
 	ON_BN_CLICKED(IDC_BUTTON_Delete, &MainDlg::OnBnClickedButtonDelete)
 	ON_BN_CLICKED(IDC_BUTTON_Sort, &MainDlg::OnBnClickedButtonSort)
 	ON_BN_CLICKED(IDC_BUTTON_Save, &MainDlg::OnBnClickedButtonSave)
 	ON_BN_CLICKED(IDC_BUTTON_Open, &MainDlg::OnBnClickedButtonOpen)
 	ON_BN_CLICKED(IDC_BUTTON_StatisGraph, &MainDlg::OnBnClickedButtonStatisgraph)
+	ON_BN_CLICKED(IDC_RADIO_SexMan, &MainDlg::OnBnClickedRadioSexman)
+	ON_BN_CLICKED(IDC_RADIO_SexWoman, &MainDlg::OnBnClickedRadioSexwoman)
+	ON_BN_CLICKED(IDC_RADIO_Gra1, &MainDlg::OnBnClickedRadioGra1)
+	ON_BN_CLICKED(IDC_RADIO_Gra2, &MainDlg::OnBnClickedRadioGra2)
+	ON_BN_CLICKED(IDC_RADIO_Gra3, &MainDlg::OnBnClickedRadioGra3)
+	ON_BN_CLICKED(IDC_RADIO_Gra4, &MainDlg::OnBnClickedRadioGra4)
 END_MESSAGE_MAP()
 
 
-// MainDlg 消息处理程序
+// -------------------------------------	MainDlg 消息处理程序 ----------------------------------------
 
-
-void MainDlg::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
-	// TODO:  在此处添加消息处理程序代码
-	// 不为绘图消息调用 CDialogEx::OnPaint()
-	CRect   rect;
-	GetClientRect(&rect);    //获取对话框长宽      
-	CDC   dcBmp;             //定义并创建一个内存设备环境
-	dcBmp.CreateCompatibleDC(&dc);             //创建兼容性DC
-	CBitmap   bmpBackground;
-	bmpBackground.LoadBitmap(IDB_BITMAP_mainbg);    //载入资源中图片
-	BITMAP   m_bitmap;                         //图片变量               
-	bmpBackground.GetBitmap(&m_bitmap);       //将图片载入位图中
-	//将位图选入临时内存设备环境
-	CBitmap  *pbmpOld = dcBmp.SelectObject(&bmpBackground);
-	//调用函数显示图片StretchBlt显示形状可变
-	dc.StretchBlt(0, 0, rect.Width(), rect.Height(), &dcBmp, 0, 0, m_bitmap.bmWidth, m_bitmap.bmHeight, SRCCOPY);
-}
-
-
-void MainDlg::OnClose()
-{	
-
-	//------------实现子窗口关闭时将父窗口关闭------------
-	CDialog*pdlg = (CDialog*)AfxGetMainWnd();
-	pdlg->DestroyWindow();
-	//----------------------------------------------------
-
-	CDialogEx::OnClose();
-}
-
-
+//	初始化窗口
 BOOL MainDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -148,81 +112,112 @@ BOOL MainDlg::OnInitDialog()
 	//	m_List.SetItemText(i, 5, math);
 	//	m_List.SetItemText(i, 6, cpp);
 	//}
-	
+
 	//更新学生人数
-	m_STU.Format(_T("%d"),m_List.GetItemCount());
+	m_STU.Format(_T("%d"), m_List.GetItemCount());
 	SetDlgItemText(IDC_EDIT_STU, m_STU);
 
 	return TRUE;	// return TRUE unless you set the focus to a control
 						// 异常:  OCX 属性页应返回 FALSE
 }
 
-//点击“全选”按钮
+//	关闭窗口
+void MainDlg::OnClose()
+{	
+
+	//------------实现子窗口关闭时将父窗口关闭------------
+	CDialog*pdlg = (CDialog*)AfxGetMainWnd();
+	pdlg->DestroyWindow();
+	//----------------------------------------------------
+
+	CDialogEx::OnClose();
+}
+
+//	重绘窗口（添加背景）
+void MainDlg::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+	// TODO:  在此处添加消息处理程序代码
+	// 不为绘图消息调用 CDialogEx::OnPaint()
+	CRect   rect;
+	GetClientRect(&rect);    //获取对话框长宽      
+	CDC   dcBmp;             //定义并创建一个内存设备环境
+	dcBmp.CreateCompatibleDC(&dc);             //创建兼容性DC
+	CBitmap   bmpBackground;
+	bmpBackground.LoadBitmap(IDB_BITMAP_mainbg);    //载入资源中图片
+	BITMAP   m_bitmap;                         //图片变量               
+	bmpBackground.GetBitmap(&m_bitmap);       //将图片载入位图中
+	//将位图选入临时内存设备环境
+	CBitmap* pbmpOld = dcBmp.SelectObject(&bmpBackground);
+	//调用函数显示图片StretchBlt显示形状可变
+	dc.StretchBlt(0, 0, rect.Width(), rect.Height(), &dcBmp, 0, 0, m_bitmap.bmWidth, m_bitmap.bmHeight, SRCCOPY);
+}
+
+
+// ----------------------------------------- 控件处理程序 ----------------------------------------------
+
+//	“性别”单选框
+void MainDlg::OnBnClickedRadioSexman()
+{
+	m_Sex = _T("男");
+}
+void MainDlg::OnBnClickedRadioSexwoman()
+{
+	m_Sex = _T("女");
+}
+
+
+//	“年级”单选框
+void MainDlg::OnBnClickedRadioGra1()
+{
+	m_Gra = _T("大一");
+}
+void MainDlg::OnBnClickedRadioGra2()
+{
+	m_Gra = _T("大二");
+}
+void MainDlg::OnBnClickedRadioGra3()
+{
+	m_Gra = _T("大三");
+}
+void MainDlg::OnBnClickedRadioGra4()
+{
+	m_Gra = _T("大四");
+}
+
+
+//	点击“全选”按钮
 void MainDlg::OnBnClickedButtonAll()
 {
 	for (int i = 0; i < m_List.GetItemCount(); i++)
 		m_List.SetCheck(i, TRUE);
 }
 
-//点击“反选”按钮
+//	点击“反选”按钮
 void MainDlg::OnBnClickedButtonOthers()
 {
 	for (int i = 0; i < m_List.GetItemCount(); i++)
 		m_List.SetCheck(i, !m_List.GetCheck(i));
 }
 
-
-//void MainDlg::OnBnClickedRadioGra1()
-//{
-//	m_Gra = _T("大一");
-//}
-//void MainDlg::OnBnClickedRadioGra2()
-//{
-//		m_Gra = _T("大二");
-//}
-//void MainDlg::OnBnClickedRadioGra3()
-//{
-//	// TODO:  在此添加控件通知处理程序代码
-//	m_Gra = _T("大三");
-//}
-//void MainDlg::OnBnClickedRadioGra4()
-//{
-//	// TODO:  在此添加控件通知处理程序代码
-//	m_Gra = _T("大四");
-//}
-
-//int m_GraID = CWnd::GetCheckedRadioButton();
-
-
-void MainDlg::OnBnClickedRadioMan()
+//	点击“添加”按钮
+void MainDlg::OnBnClickedMfcbuttonAdd()
 {
-	// TODO:  在此添加控件通知处理程序代码
-	m_Sex = _T("男");
-}
-void MainDlg::OnBnClickedRadioWoman()
-{
-	// TODO:  在此添加控件通知处理程序代码
-	m_Sex = _T("女");
-}
-
-
-void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
-{
-	Student temp;
-	CString T_temp;
-
-	//--------------从编辑框获取数据------------------
+	//	从编辑框获取数据
 	UpdateData(TRUE);
 	double maths =0.4* _tcstod(m_MathsD, NULL) + 0.6*_tcstod(m_MathsT, NULL);
 	double cpp =0.4* _tcstod(m_CppD, NULL) + 0.6*_tcstod(m_CppT, NULL);
-
-
-	//-------------判断是否获取了空数据---------------
-	if (m_Name && m_Num && m_CppD && m_CppT && m_MathsD && m_MathsT)
+	
+	//	判断是否获取了空数据
+	if (m_Name && m_Num && m_CppD && m_CppT && m_MathsD && m_MathsT && m_Gra && m_Sex)
 	{
 		MessageBox(_T("数据不能为空！请检查输入"), _T("提示"), MB_ICONWARNING);
 		return;
 	}
+
+	//	创建临时Student对象添加进系统
+	Student temp;
+	CString m_temp;
 
 	temp.Num = m_Num;
 	temp.Grade = m_Gra;
@@ -232,51 +227,117 @@ void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 	temp.maths = maths;
 	temp.CPP = cpp;
 
-
 	//将数据检查合理性后放进Managerment的对象ManagerSystem内
 	if (ManagerSystem.Iscorrect(temp))
 	{
 		//在容器内添加数据
 		ManagerSystem.AddData(temp);
-		int nCount = m_List.GetItemCount();
 
 		//在界面列表控件中添加数据
+		int nCount = m_List.GetItemCount();
 		m_List.InsertItem(nCount, m_Num);
 		m_List.SetItemText(nCount, 1, m_Gra);
 		m_List.SetItemText(nCount, 2, m_Class);
 		m_List.SetItemText(nCount, 3, m_Name);
 		m_List.SetItemText(nCount, 4, m_Sex);
+
 		//将浮点型转为cstring型
-		T_temp.Format(_T("%.1f"), maths);
-		m_List.SetItemText(nCount, 5, T_temp);
-		T_temp.Format(_T("%.1f"), cpp);
-		m_List.SetItemText(nCount, 6, T_temp);
+		m_temp.Format(_T("%.1f"), maths);
+		m_List.SetItemText(nCount, 5, m_temp);
+		m_temp.Format(_T("%.1f"), cpp);
+		m_List.SetItemText(nCount, 6, m_temp);
+
 
 		//更新学生人数
 		m_STU.Format("%d", nCount+1);
 		SetDlgItemText(IDC_EDIT_STU, m_STU);
 	}
 	else
-	{
 		MessageBox(_T("学号雷同或成绩输入错误！请检查输入"), _T("提示"), MB_ICONWARNING);
-	}
 }
 
-void MainDlg::OnBnClickedButtonEdit()//点击"编辑"按钮
+//	点击"编辑"按钮
+void MainDlg::OnBnClickedButtonEdit()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	Student temp;
-	int i;
+	//	寻找被选中的行号
+	int i;	//	行号
+
+	//	循环直到找到被勾选项
 	for (i = 0; i < m_List.GetItemCount(); i++)
 	{
 		if (m_List.GetCheck(i))
 			break;
 	}
+
+	//	如果i=行数 说明用户没有勾选
 	if (i == m_List.GetItemCount())
 	{
+		MessageBox(_T("请勾选一行！"), _T("提示"), MB_ICONWARNING);
 		return;
 	}
-	CString m_Name, m_Num, m_Class, T_temp;
+
+	Student temp;
+	CString  m_temp;
+
+	//	将该学生的信息设置到输入框方便进行修改
+
+	//	获取该位置学生的信息
+	switch (SortID)
+	{
+	case 0:
+		temp = ManagerSystem.Pstu[i];
+		break;
+	case 1:
+		temp = ManagerSystem.SortM[i];
+		break;
+	case 2:
+		temp = ManagerSystem.SortC[i];
+		break;
+	default:
+		MessageBox("WTF????	How dare are you！");
+		break;
+	}
+	
+	//	设置到输入框
+	SetDlgItemText(IDC_EDIT_Name,temp.Name);
+	SetDlgItemText(IDC_EDIT_Num, temp.Num);
+	SetDlgItemText(IDC_EDIT_Class, temp.Class);
+
+	//	设置性别单选框
+	CButton* Cwnd_radio_temp;
+
+	if (m_Sex=="男")
+	{
+		//获取单选框男的指针
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_SexMan);
+		Cwnd_radio_temp->SetCheck(TRUE);
+	}
+	else
+	{
+		//获取单选框女的指针
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_SexWoman);
+		Cwnd_radio_temp->SetCheck(TRUE);
+	}
+
+	//	设置年级单选框
+	if (m_Gra=="大一")
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra1);
+	if (m_Gra == "大二")
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra2);
+	if (m_Gra == "大三")
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra3);
+	else
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra4);
+	Cwnd_radio_temp->SetCheck(TRUE);
+
+	SetDlgItemText(IDC_EDIT_Name, temp.Name);
+	SetDlgItemText(IDC_EDIT_Name, temp.Name);
+
+
+
+
+
+
 	//--------------从编辑框获取数据------------------
 	GetDlgItemText(IDC_EDIT_Name, m_Name);
 	GetDlgItemText(IDC_EDIT_Num, m_Num);
@@ -315,10 +376,10 @@ void MainDlg::OnBnClickedButtonEdit()//点击"编辑"按钮
 	m_List.SetItemText(i, 3, m_Name);
 	m_List.SetItemText(i, 4, m_Sex);
 	//将浮点型转为cstring型
-	T_temp.Format(_T("%.1f"), maths);
-	m_List.SetItemText(i, 5, T_temp);
-	T_temp.Format(_T("%.1f"), cpp);
-	m_List.SetItemText(i, 6, T_temp);
+	m_temp.Format(_T("%.1f"), maths);
+	m_List.SetItemText(i, 5, m_temp);
+	m_temp.Format(_T("%.1f"), cpp);
+	m_List.SetItemText(i, 6, m_temp);
 }
 
 void MainDlg::OnBnClickedButtonDelete()
@@ -347,13 +408,11 @@ void MainDlg::OnBnClickedRadiomaths()
 }
 void MainDlg::OnBnClickedRadioCpp()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	s = 1;
 }
 
 void MainDlg::OnBnClickedButtonSort()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	m_List.DeleteAllItems();
 	int nCount = ManagerSystem.GetCount();
 	CString temp;
@@ -438,7 +497,7 @@ void MainDlg::OnBnClickedButtonOpen()
 	{
 		CStdioFile file(fDlg.GetPathName(), CFile::modeRead);
 		CString temp;
-		CString m_Name, m_Num, m_Class, T_temp, T_maths, T_cpp;
+		CString m_Name, m_Num, m_Class, m_temp, T_maths, T_cpp;
 		Student Stemp;
 		int i = 0;
 		while (file.ReadString(temp))

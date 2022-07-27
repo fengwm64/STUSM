@@ -212,7 +212,6 @@ void CSTUSMDlg::OnBnClickedMfcbuttonLogin()
 
 void CSTUSMDlg::OnBnClickedCheckRemember()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	SetDlgItemText(IDC_EDIT_Account, ACC);
 	SetDlgItemText(IDC_EDIT_Password, PAS);
 }

@@ -60,7 +60,7 @@ void Management::SortDataM()
 	for (int i = 0; i < Count; i++)
 		SortM[i] = Pstu[i];
 
-	//------------------使用冒泡排序---------------------
+	//	使用冒泡排序
 	for (int i = 0; i < Count - 1; i++)
 	{
 		int work = 1;	//监测点，若数据本已经有序直接结束程序
@@ -84,7 +84,7 @@ void Management::SortDataC()
 	for (int i = 0; i < Count; i++)
 		SortC[i] = Pstu[i];
 
-	//------------------使用冒泡排序---------------------
+	//	使用冒泡排序
 	for (int i = 0; i < Count - 1; i++)
 	{
 		int work = 1;	//监测点，若数据本已经有序直接结束程序
