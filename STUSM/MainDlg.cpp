@@ -9,9 +9,10 @@
 
 //声明全局变量
 Management ManagerSystem;
-CString STU = _T("0");
-CString m_MathsD, m_MathsT;
-CString m_CppD, m_CppT;
+
+
+
+
 
 // MainDlg 对话框
 
@@ -125,12 +126,9 @@ BOOL MainDlg::OnInitDialog()
 	m_List.InsertColumn(4, _T("性别"), LVCFMT_CENTER, 80);
 	m_List.InsertColumn(5, _T("高等数学"), LVCFMT_CENTER, 100);
 	m_List.InsertColumn(6, _T("面向对象程序设计"), LVCFMT_CENTER, 135);
-
 	//-------------------------------------------------------------
+
 	m_List.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-
-	SetDlgItemText(IDC_EDIT_STU, STU);
-
 	////-----------------------创建测试数据--------------------------
 	//CString num = _T("321161601");
 	//CString nj = _T("大一");
@@ -139,7 +137,6 @@ BOOL MainDlg::OnInitDialog()
 	//CString name = _T("冯韦铭");
 	//CString math = _T("100");
 	//CString cpp = _T("100");
-
 	//for (int i = 0; i < 20; i++)
 	//{
 	//	num.Format(_T("3211616010%d"), i);
@@ -153,8 +150,8 @@ BOOL MainDlg::OnInitDialog()
 	//}
 	
 	//更新学生人数
-	STU.Format(_T("%d"),m_List.GetItemCount());
-	SetDlgItemText(IDC_EDIT_STU, STU);
+	m_STU.Format(_T("%d"),m_List.GetItemCount());
+	SetDlgItemText(IDC_EDIT_STU, m_STU);
 
 	return TRUE;	// return TRUE unless you set the focus to a control
 						// 异常:  OCX 属性页应返回 FALSE
@@ -175,39 +172,37 @@ void MainDlg::OnBnClickedButtonOthers()
 }
 
 
-CString T_G;//表示年级
-void MainDlg::OnBnClickedRadioGra1()
-{
-	// TODO:  在此添加控件通知处理程序代码
-	T_G = _T("大一");
-}
-void MainDlg::OnBnClickedRadioGra2()
-{
-	// TODO:  在此添加控件通知处理程序代码
-		T_G = _T("大二");
-}
-void MainDlg::OnBnClickedRadioGra3()
-{
-	// TODO:  在此添加控件通知处理程序代码
-	T_G = _T("大三");
-}
-void MainDlg::OnBnClickedRadioGra4()
-{
-	// TODO:  在此添加控件通知处理程序代码
-	T_G = _T("大四");
-}
+//void MainDlg::OnBnClickedRadioGra1()
+//{
+//	m_Gra = _T("大一");
+//}
+//void MainDlg::OnBnClickedRadioGra2()
+//{
+//		m_Gra = _T("大二");
+//}
+//void MainDlg::OnBnClickedRadioGra3()
+//{
+//	// TODO:  在此添加控件通知处理程序代码
+//	m_Gra = _T("大三");
+//}
+//void MainDlg::OnBnClickedRadioGra4()
+//{
+//	// TODO:  在此添加控件通知处理程序代码
+//	m_Gra = _T("大四");
+//}
+
+//int m_GraID = CWnd::GetCheckedRadioButton();
 
 
-CString T_sex;
 void MainDlg::OnBnClickedRadioMan()
 {
 	// TODO:  在此添加控件通知处理程序代码
-	T_sex = _T("男");
+	m_Sex = _T("男");
 }
 void MainDlg::OnBnClickedRadioWoman()
 {
 	// TODO:  在此添加控件通知处理程序代码
-	T_sex = _T("女");
+	m_Sex = _T("女");
 }
 
 
@@ -230,12 +225,13 @@ void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 	}
 
 	temp.Num = m_Num;
-	temp.Grade = T_G;
+	temp.Grade = m_Gra;
 	temp.Name = m_Name;
-	temp.Sex = T_sex;
+	temp.Sex = m_Sex;
 	temp.Class = m_Class;
-	temp.CPP = cpp;
 	temp.maths = maths;
+	temp.CPP = cpp;
+
 
 	//将数据检查合理性后放进Managerment的对象ManagerSystem内
 	if (ManagerSystem.Iscorrect(temp))
@@ -246,10 +242,10 @@ void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 
 		//在界面列表控件中添加数据
 		m_List.InsertItem(nCount, m_Num);
-		m_List.SetItemText(nCount, 1, T_G);
+		m_List.SetItemText(nCount, 1, m_Gra);
 		m_List.SetItemText(nCount, 2, m_Class);
 		m_List.SetItemText(nCount, 3, m_Name);
-		m_List.SetItemText(nCount, 4, T_sex);
+		m_List.SetItemText(nCount, 4, m_Sex);
 		//将浮点型转为cstring型
 		T_temp.Format(_T("%.1f"), maths);
 		m_List.SetItemText(nCount, 5, T_temp);
@@ -257,8 +253,8 @@ void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 		m_List.SetItemText(nCount, 6, T_temp);
 
 		//更新学生人数
-		STU.Format("%d", nCount+1);
-		SetDlgItemText(IDC_EDIT_STU, STU);
+		m_STU.Format("%d", nCount+1);
+		SetDlgItemText(IDC_EDIT_STU, m_STU);
 	}
 	else
 	{
@@ -303,9 +299,9 @@ void MainDlg::OnBnClickedButtonEdit()//点击"编辑"按钮
 
 	//获取数据放入对象
 	temp.Num = m_Num;
-	temp.Grade = T_G;
+	temp.Grade = m_Gra;
 	temp.Name = m_Name;
-	temp.Sex = T_sex;
+	temp.Sex = m_Sex;
 	temp.Class = m_Class;
 	temp.CPP = cpp;
 	temp.maths = maths;
@@ -314,10 +310,10 @@ void MainDlg::OnBnClickedButtonEdit()//点击"编辑"按钮
 	
 	m_List.DeleteItem(i);
 	m_List.InsertItem(i, m_Num);
-	m_List.SetItemText(i, 1, T_G);
+	m_List.SetItemText(i, 1, m_Gra);
 	m_List.SetItemText(i, 2, m_Class);
 	m_List.SetItemText(i, 3, m_Name);
-	m_List.SetItemText(i, 4, T_sex);
+	m_List.SetItemText(i, 4, m_Sex);
 	//将浮点型转为cstring型
 	T_temp.Format(_T("%.1f"), maths);
 	m_List.SetItemText(i, 5, T_temp);
@@ -339,8 +335,8 @@ void MainDlg::OnBnClickedButtonDelete()
 	}
 	//更新学生人数
 	int nCount = m_List.GetItemCount();
-	STU.Format(_T("%d"), nCount);
-	SetDlgItemText(IDC_EDIT_STU, STU);
+	m_STU.Format(_T("%d"), nCount);
+	SetDlgItemText(IDC_EDIT_STU, m_STU);
 }
 
 int s;
@@ -379,8 +375,8 @@ void MainDlg::OnBnClickedButtonSort()
 			m_List.SetItemText(i, 6, temp);
 		}
 		//更新学生人数
-		STU.Format(_T("%d"), m_List.GetItemCount());
-		SetDlgItemText(IDC_EDIT_STU, STU);
+		m_STU.Format(_T("%d"), m_List.GetItemCount());
+		SetDlgItemText(IDC_EDIT_STU, m_STU);
 		break;
 	case 1:
 		ManagerSystem.SortDataC();
@@ -398,8 +394,8 @@ void MainDlg::OnBnClickedButtonSort()
 			m_List.SetItemText(i, 6, temp);
 		}
 		//更新学生人数
-		STU.Format(_T("%d"), m_List.GetItemCount());
-		SetDlgItemText(IDC_EDIT_STU, STU);
+		m_STU.Format(_T("%d"), m_List.GetItemCount());
+		SetDlgItemText(IDC_EDIT_STU, m_STU);
 		break;
 	default:
 		break;
@@ -483,8 +479,8 @@ void MainDlg::OnBnClickedButtonOpen()
 
 	//更新学生人数
 	int nCount = m_List.GetItemCount();
-	STU.Format(_T("%d"), nCount);
-	SetDlgItemText(IDC_EDIT_STU, STU);
+	m_STU.Format(_T("%d"), nCount);
+	SetDlgItemText(IDC_EDIT_STU, m_STU);
 }
 
 void MainDlg::OnBnClickedButtonStatisgraph()

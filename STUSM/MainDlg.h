@@ -58,6 +58,10 @@ public:
 
 	CString m_Class;	// 绑定班级输入框的变量
 
+	CString m_Gra;		//	年级
+
+	CString m_Sex;		//	性别
+
 	CString m_MathsD;	// 绑定高数平时成绩输入框的变量
 	CString m_MathsT;	// 绑定高数考试成绩输入框的变量
 
