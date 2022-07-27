@@ -1,6 +1,9 @@
 #pragma once
 #include "afxcmn.h"
 #include "afxwin.h"
+#include <cstring>
+#include "afxdialogex.h"
+
 
 // MainDlg 对话框
 
@@ -22,18 +25,18 @@ protected:
 public:
 	afx_msg void OnClose();
 	virtual BOOL OnInitDialog();
-	// 这里是显示学生详细成绩的列表
-	CListCtrl m_List;
+	
 	afx_msg void OnBnClickedButtonAll();
 	afx_msg void OnBnClickedButtonOthers();
 	afx_msg void OnBnClickedMfcbuttonAdd();
 	afx_msg void OnPaint();
+
 	// 年级
 	afx_msg void OnBnClickedRadioGra1();
 	afx_msg void OnBnClickedRadioGra2();
 	afx_msg void OnBnClickedRadioGra3();
 	afx_msg void OnBnClickedRadioGra4();
-	CButton m_Radio1;
+
 	afx_msg void OnBnClickedRadiomaths();
 	afx_msg void OnBnClickedRadioCpp();
 	afx_msg void OnBnClickedRadioMan();
@@ -44,4 +47,20 @@ public:
 	afx_msg void OnBnClickedButtonSave();
 	afx_msg void OnBnClickedButtonOpen();
 	afx_msg void OnBnClickedButtonStatisgraph();
+
+	CListCtrl m_List;	// 显示学生详细成绩的列表
+
+	CString m_STU;	// 当前已添加的学生人数
+
+	CString m_Num;	//	绑定学号输入框的变量
+
+	CString m_Name;	// 绑定姓名输入框的变量
+
+	CString m_Class;	// 绑定班级输入框的变量
+
+	CString m_MathsD;	// 绑定高数平时成绩输入框的变量
+	CString m_MathsT;	// 绑定高数考试成绩输入框的变量
+
+	CString m_CppD;		//	绑定CPP平时成绩输入框的变量
+	CString m_CppT;		//	绑定CPP考试成绩输入框的变量
 };

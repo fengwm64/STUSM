@@ -10,8 +10,8 @@
 //声明全局变量
 Management ManagerSystem;
 CString STU = _T("0");
-CString T_mathd, T_matht;
-CString T_cppd, T_cppt;
+CString m_MathsD, m_MathsT;
+CString m_CppD, m_CppT;
 
 // MainDlg 对话框
 
@@ -19,6 +19,14 @@ IMPLEMENT_DYNAMIC(MainDlg, CDialogEx)
 
 MainDlg::MainDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(MainDlg::IDD, pParent)
+	, m_Num(_T(""))
+	, m_Name(_T(""))
+	, m_Class(_T(""))
+	, m_MathsD(_T(""))
+	, m_MathsT(_T(""))
+	, m_CppD(_T(""))
+	, m_CppT(_T(""))
+	, m_STU(_T(""))
 {
 
 }
@@ -31,7 +39,15 @@ void MainDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_Show, m_List);
-	DDX_Control(pDX, IDC_RADIO_Gra1, m_Radio1);
+
+	DDX_Text(pDX, IDC_EDIT_Num, m_Num);
+	DDX_Text(pDX, IDC_EDIT_Name, m_Name);
+	DDX_Text(pDX, IDC_EDIT_Class, m_Class);
+	DDX_Text(pDX, IDC_EDIT_Mathsd, m_MathsD);
+	DDX_Text(pDX, IDC_EDIT_Mathst, m_MathsT);
+	DDX_Text(pDX, IDC_EDIT_Cppd, m_CppD);
+	DDX_Text(pDX, IDC_EDIT_Cppt, m_CppT);
+	DDX_Text(pDX, IDC_EDIT_STU, m_STU);
 }
 
 
@@ -135,6 +151,7 @@ BOOL MainDlg::OnInitDialog()
 	//	m_List.SetItemText(i, 5, math);
 	//	m_List.SetItemText(i, 6, cpp);
 	//}
+	
 	//更新学生人数
 	STU.Format(_T("%d"),m_List.GetItemCount());
 	SetDlgItemText(IDC_EDIT_STU, STU);
@@ -143,24 +160,18 @@ BOOL MainDlg::OnInitDialog()
 						// 异常:  OCX 属性页应返回 FALSE
 }
 
-
-void MainDlg::OnBnClickedButtonAll()//点击“全选”按钮
+//点击“全选”按钮
+void MainDlg::OnBnClickedButtonAll()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	for (int i = 0; i < m_List.GetItemCount(); i++)
-	{
 		m_List.SetCheck(i, TRUE);
-	}
 }
 
-
-void MainDlg::OnBnClickedButtonOthers()//点击“反选”按钮
+//点击“反选”按钮
+void MainDlg::OnBnClickedButtonOthers()
 {
-	// TODO:  在此添加控件通知处理程序代码
 	for (int i = 0; i < m_List.GetItemCount(); i++)
-	{
 		m_List.SetCheck(i, !m_List.GetCheck(i));
-	}
 }
 
 
@@ -202,35 +213,27 @@ void MainDlg::OnBnClickedRadioWoman()
 
 void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 {
-	// TODO:  在此添加控件通知处理程序代码
-	CString T_name, T_num, T_class, T_temp;
 	Student temp;
+	CString T_temp;
 
 	//--------------从编辑框获取数据------------------
-	GetDlgItemText(IDC_EDIT_Name, T_name);
-	GetDlgItemText(IDC_EDIT_Num, T_num);
-	GetDlgItemText(IDC_EDIT_Class, T_class);
+	UpdateData(TRUE);
+	double maths =0.4* _tcstod(m_MathsD, NULL) + 0.6*_tcstod(m_MathsT, NULL);
+	double cpp =0.4* _tcstod(m_CppD, NULL) + 0.6*_tcstod(m_CppT, NULL);
 
-	GetDlgItemText(IDC_EDIT_Mathsd, T_mathd);
-	GetDlgItemText(IDC_EDIT_Mathst, T_matht);
-	double maths =0.4* _tcstod(T_mathd, NULL) + 0.6*_tcstod(T_matht, NULL);
-
-	GetDlgItemText(IDC_EDIT_Cppd, T_cppd);
-	GetDlgItemText(IDC_EDIT_Cppt, T_cppt);
-	double cpp =0.4* _tcstod(T_cppd, NULL) + 0.6*_tcstod(T_cppt, NULL);
 
 	//-------------判断是否获取了空数据---------------
-	if (T_name == "" && T_num && T_cppd && T_cppt && T_mathd && T_matht)
+	if (m_Name && m_Num && m_CppD && m_CppT && m_MathsD && m_MathsT)
 	{
 		MessageBox(_T("数据不能为空！请检查输入"), _T("提示"), MB_ICONWARNING);
 		return;
 	}
 
-	temp.Num = T_num;
+	temp.Num = m_Num;
 	temp.Grade = T_G;
-	temp.Name = T_name;
+	temp.Name = m_Name;
 	temp.Sex = T_sex;
-	temp.Class = T_class;
+	temp.Class = m_Class;
 	temp.CPP = cpp;
 	temp.maths = maths;
 
@@ -242,10 +245,10 @@ void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 		int nCount = m_List.GetItemCount();
 
 		//在界面列表控件中添加数据
-		m_List.InsertItem(nCount, T_num);
+		m_List.InsertItem(nCount, m_Num);
 		m_List.SetItemText(nCount, 1, T_G);
-		m_List.SetItemText(nCount, 2, T_class);
-		m_List.SetItemText(nCount, 3, T_name);
+		m_List.SetItemText(nCount, 2, m_Class);
+		m_List.SetItemText(nCount, 3, m_Name);
 		m_List.SetItemText(nCount, 4, T_sex);
 		//将浮点型转为cstring型
 		T_temp.Format(_T("%.1f"), maths);
@@ -254,7 +257,7 @@ void MainDlg::OnBnClickedMfcbuttonAdd()///点击“添加”按钮
 		m_List.SetItemText(nCount, 6, T_temp);
 
 		//更新学生人数
-		STU.Format(_T("%d"), nCount+1);
+		STU.Format("%d", nCount+1);
 		SetDlgItemText(IDC_EDIT_STU, STU);
 	}
 	else
@@ -277,43 +280,43 @@ void MainDlg::OnBnClickedButtonEdit()//点击"编辑"按钮
 	{
 		return;
 	}
-	CString T_name, T_num, T_class, T_temp;
+	CString m_Name, m_Num, m_Class, T_temp;
 	//--------------从编辑框获取数据------------------
-	GetDlgItemText(IDC_EDIT_Name, T_name);
-	GetDlgItemText(IDC_EDIT_Num, T_num);
-	GetDlgItemText(IDC_EDIT_Class, T_class);
+	GetDlgItemText(IDC_EDIT_Name, m_Name);
+	GetDlgItemText(IDC_EDIT_Num, m_Num);
+	GetDlgItemText(IDC_EDIT_Class, m_Class);
 
-	GetDlgItemText(IDC_EDIT_Mathsd, T_mathd);
-	GetDlgItemText(IDC_EDIT_Mathst, T_matht);
-	double maths = 0.4 * _tcstod(T_mathd, NULL) + 0.6 * _tcstod(T_matht, NULL);
+	GetDlgItemText(IDC_EDIT_Mathsd, m_MathsD);
+	GetDlgItemText(IDC_EDIT_Mathst, m_MathsT);
+	double maths = 0.4 * _tcstod(m_MathsD, NULL) + 0.6 * _tcstod(m_MathsT, NULL);
 
-	GetDlgItemText(IDC_EDIT_Cppd, T_cppd);
-	GetDlgItemText(IDC_EDIT_Cppt, T_cppt);
-	double cpp = 0.4 * _tcstod(T_cppd, NULL) + 0.6 * _tcstod(T_cppt, NULL);
+	GetDlgItemText(IDC_EDIT_Cppd, m_CppD);
+	GetDlgItemText(IDC_EDIT_Cppt, m_CppT);
+	double cpp = 0.4 * _tcstod(m_CppD, NULL) + 0.6 * _tcstod(m_CppT, NULL);
 
 	//-------------判断是否获取了空数据---------------
-	if (T_name == "" && T_num && T_cppd && T_cppt && T_mathd && T_matht)
+	if (m_Name == "" && m_Num && m_CppD && m_CppT && m_MathsD && m_MathsT)
 	{
 		MessageBox(_T("数据不能为空！请检查输入"), _T("提示"), MB_ICONWARNING);
 		return;
 	}
 
 	//获取数据放入对象
-	temp.Num = T_num;
+	temp.Num = m_Num;
 	temp.Grade = T_G;
-	temp.Name = T_name;
+	temp.Name = m_Name;
 	temp.Sex = T_sex;
-	temp.Class = T_class;
+	temp.Class = m_Class;
 	temp.CPP = cpp;
 	temp.maths = maths;
 
 	ManagerSystem.EditData(temp, i);
 	
 	m_List.DeleteItem(i);
-	m_List.InsertItem(i, T_num);
+	m_List.InsertItem(i, m_Num);
 	m_List.SetItemText(i, 1, T_G);
-	m_List.SetItemText(i, 2, T_class);
-	m_List.SetItemText(i, 3, T_name);
+	m_List.SetItemText(i, 2, m_Class);
+	m_List.SetItemText(i, 3, m_Name);
 	m_List.SetItemText(i, 4, T_sex);
 	//将浮点型转为cstring型
 	T_temp.Format(_T("%.1f"), maths);
@@ -439,7 +442,7 @@ void MainDlg::OnBnClickedButtonOpen()
 	{
 		CStdioFile file(fDlg.GetPathName(), CFile::modeRead);
 		CString temp;
-		CString T_name, T_num, T_class, T_temp, T_maths, T_cpp;
+		CString m_Name, m_Num, m_Class, T_temp, T_maths, T_cpp;
 		Student Stemp;
 		int i = 0;
 		while (file.ReadString(temp))
