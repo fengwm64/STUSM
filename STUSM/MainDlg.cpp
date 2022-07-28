@@ -445,17 +445,22 @@ void MainDlg::OnBnClickedButtonSave()
 //	点击"打开"按钮
 void MainDlg::OnBnClickedButtonOpen()
 {
+	//	设置打开文件对话框的信息
 	CFileDialog fDlg(TRUE, ".dat", "save", OFN_OVERWRITEPROMPT, "数据文件(*.dat)|*.dat", NULL);
+
+	//	如果成功打开对话框
 	if (fDlg.DoModal() == IDOK)
 	{
+		//	创建文件对象
 		CStdioFile file(fDlg.GetPathName(), CFile::modeRead);
-		CString m_temp;
-		CString m_Name, m_Num, m_Class, m_temp, T_maths, T_cpp;
-		Student Stemp;
+
+		//	初始化行号
 		m_Row = 0;
+
+		//	不断读取，直到文件尾
 		while (file.ReadString(m_temp))
 		{
-
+			//	查找每一个#的位置
 			int x = m_temp.Find("#");
 			int x2 = m_temp.Find("#", x + 1);
 			int x3 = m_temp.Find("#", x2 + 1);
@@ -464,32 +469,47 @@ void MainDlg::OnBnClickedButtonOpen()
 			int x6 = m_temp.Find("#", x5 + 1);
 			int x7 = m_temp.Find("#", x6 + 1);
 
-			Stemp.Num = m_temp.Left(x);
-			Stemp.Grade = m_temp.Mid(x + 1, x2 - x - 1);
-			Stemp.Class = m_temp.Mid(x2 + 1, x3 - x2 - 1);
-			Stemp.Name = m_temp.Mid(x3 + 1, x4 - x3 - 1);
-			Stemp.Sex = m_temp.Mid(x4 + 1, x5 - x4 - 1);
-			Stemp.maths = _tcstod(m_temp.Mid(x5 + 1, x4 - x3 - 1), NULL);
-			Stemp.CPP = _tcstod(m_temp.Mid(x6 + 1, x7 - x6 - 1), NULL);
-			ManagerSystem.AddData(Stemp);
+			//	将读取的数据放入Student的临时对象temp内
+			temp.Num = m_temp.Left(x);
+			temp.Grade = m_temp.Mid(x + 1, x2 - x - 1);
+			temp.Class = m_temp.Mid(x2 + 1, x3 - x2 - 1);
+			temp.Name = m_temp.Mid(x3 + 1, x4 - x3 - 1);
+			temp.Sex = m_temp.Mid(x4 + 1, x5 - x4 - 1);
+			temp.maths = _tcstod(m_temp.Mid(x5 + 1, x4 - x3 - 1), NULL);
+			temp.CPP = _tcstod(m_temp.Mid(x6 + 1, x7 - x6 - 1), NULL);
 
-			m_List.InsertItem(m_Row, Stemp.Num);
-			m_List.SetItemText(m_Row, 1, Stemp.Grade);
-			m_List.SetItemText(m_Row, 2, Stemp.Class);
-			m_List.SetItemText(m_Row, 3, Stemp.Name);
-			m_List.SetItemText(m_Row, 4, Stemp.Sex);
-			CString Format_Gra;
-			Format_Gra.Format("%.1f", Stemp.maths);
-			m_List.SetItemText(m_Row, 5, Format_Gra);
-			Format_Gra.Format("%.1f", Stemp.CPP);
-			m_List.SetItemText(m_Row, 6, Format_Gra);
+			//	将每条数据添加进入容器内部
+			ManagerSystem.AddData(temp);
 
+			//	将每条数据添加进list control控件内
+			m_List.InsertItem(m_Row, temp.Num);
+			m_List.SetItemText(m_Row, 1, temp.Grade);
+			m_List.SetItemText(m_Row, 2, temp.Class);
+			m_List.SetItemText(m_Row, 3, temp.Name);
+			m_List.SetItemText(m_Row, 4, temp.Sex);
+
+			//	这里Format_Temp的作用是解决一个bug
+			//	比如程序会读入一个98.2#这样的数据
+			//	利用CString的格式化功能可以解决这个bug
+			CString Format_Temp;
+
+			Format_Temp.Format("%.1f", temp.maths);
+			m_List.SetItemText(m_Row, 5, Format_Temp);
+
+			Format_Temp.Format("%.1f", temp.CPP);
+			m_List.SetItemText(m_Row, 6, Format_Temp);
+
+			//	行号++ 在下次循环时写入下一行
 			m_Row++;
 		}
-		
+	}
+	else
+	{
+		MessageBox("WTF ???	你总是可以给我整出点新花样");
+		return;
 	}
 
-	//更新学生人数
+	//	更新学生人数
 	int nCount = m_List.GetItemCount();
 	m_STU.Format(_T("%d"), nCount);
 	SetDlgItemText(IDC_EDIT_STU, m_STU);
@@ -498,7 +518,8 @@ void MainDlg::OnBnClickedButtonOpen()
 //	点击"绘图"按钮
 void MainDlg::OnBnClickedButtonStatisgraph()
 {
-	// TODO: 在此添加控件通知处理程序代码
+
+
 }
 
 //	双击list control的响应事件（将该学生的信息设置到输入框方便进行修改）
