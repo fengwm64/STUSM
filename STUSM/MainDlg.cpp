@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "STUSM.h"
 #include "MainDlg.h"
+#include "StatisGraphDlg.h"
 #include "afxdialogex.h"
 
 
@@ -379,6 +380,9 @@ void MainDlg::OnBnClickedButtonSort()
 			m_List.SetItemText(m_Row, 6, m_temp);
 		}
 
+		//	修改代表列表状态的变量
+		SortID = 1;
+
 	case 1:
 		ManagerSystem.SortDataC();
 
@@ -395,6 +399,9 @@ void MainDlg::OnBnClickedButtonSort()
 			m_temp.Format(_T("%.1f"), ManagerSystem.SortC[m_Row].CPP);
 			m_List.SetItemText(m_Row, 6, m_temp);
 		}
+
+		//	修改代表列表状态的变量
+		SortID = 2;
 
 	default:
 		break;
@@ -518,8 +525,12 @@ void MainDlg::OnBnClickedButtonOpen()
 //	点击"绘图"按钮
 void MainDlg::OnBnClickedButtonStatisgraph()
 {
+	//	先对当前记录进行保存 以便绘图窗口读文件
+	OnBnClickedButtonSave();
 
-
+	//	创建一个模态对话框
+	StatisGraphDlg dlg;
+	dlg.DoModal();
 }
 
 //	双击list control的响应事件（将该学生的信息设置到输入框方便进行修改）

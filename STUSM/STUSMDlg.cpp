@@ -195,7 +195,7 @@ void CSTUSMDlg::OnBnClickedMfcbuttonLogin()
 	}
 	if (account == ACC&&password == PAS)
 	{
-		ShowWindow(SW_HIDE);
+		//ShowWindow(SW_HIDE);
 		MainDlg main;
 		main.DoModal();		
 	}

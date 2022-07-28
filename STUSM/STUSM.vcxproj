@@ -105,6 +105,7 @@
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="Management.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="StatisGraphDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="STUSM.h" />
@@ -116,6 +117,7 @@
     <ClCompile Include="Management.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StatisGraphDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
