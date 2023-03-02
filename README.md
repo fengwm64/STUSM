@@ -2,7 +2,9 @@
 
 ## 前言
 
-这是本人在大一下学期CPP程序设计课程设计完成的 学生成绩管理系统 项目，我取名为STUSM(Student Score Management)，项目采用MFC完成
+这是本人在大一下学期CPP程序设计课程设计完成的 学生成绩管理系统 项目，我取名为STUSM(Student Score Management)，项目采用MFC完成。
+
+**请注意，本项目尚未重构完成，bug极多！！！**
 
 ## 一、  课程设计题目及内容
 
