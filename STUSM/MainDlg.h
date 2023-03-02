@@ -6,8 +6,6 @@
 #include "Management.h"
 #include "Student.h"
 
-
-
 // MainDlg 对话框
 
 class MainDlg : public CDialogEx
@@ -29,10 +27,10 @@ protected:
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnClose();
+	afx_msg void OnPaint();
 	afx_msg void OnBnClickedButtonAll();
 	afx_msg void OnBnClickedButtonOthers();
 	afx_msg void OnBnClickedMfcbuttonAdd();
-	afx_msg void OnPaint();
 	afx_msg void OnBnClickedRadiomaths();
 	afx_msg void OnBnClickedRadioCpp();
 	afx_msg void OnBnClickedRadioSexman();
@@ -64,6 +62,11 @@ public:
 	int m_Row;				//	list contorl控件的行号
 	int m_Sort;				//	用于判断按下“排序”按钮时执行什么排序
 	int SortID;					//	用于判断当前列表状态（正常/按高数/按CPP）
+
+	double m_Aver;		//	平均值
+	double m_Median;	//	中位数
+	double m_Range;		//	极差
+	double m_Variance;	//	方差
 
 	Management ManagerSystem;		//	管理系统的对象
 	Student temp;			//	Student类型的临时对象

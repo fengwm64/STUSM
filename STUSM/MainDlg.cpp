@@ -90,27 +90,8 @@ BOOL MainDlg::OnInitDialog()
 	//-------------------------------------------------------------
 
 	m_List.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
-	////-----------------------创建测试数据--------------------------
-	//CString num = _T("321161601");
-	//CString nj = _T("大一");
-	//CString sex = _T("男");	
-	//CString classna = _T("计科212");
-	//CString name = _T("冯韦铭");
-	//CString math = _T("100");
-	//CString cpp = _T("100");
-	//for (int i = 0; i < 20; i++)
-	//{
-	//	num.Format(_T("3211616010%d"), i);
-	//	m_List.InsertItem(i, num);
-	//	m_List.SetItemText(i, 1, nj);
-	//	m_List.SetItemText(i, 2, classna);
-	//	m_List.SetItemText(i, 3, name);
-	//	m_List.SetItemText(i, 4, sex);
-	//	m_List.SetItemText(i, 5, math);
-	//	m_List.SetItemText(i, 6, cpp);
-	//}
-	
-	//更新学生人数
+
+	//	更新学生人数
 	m_STU.Format(_T("%d"), m_List.GetItemCount());
 	SetDlgItemText(IDC_EDIT_STU, m_STU);
 
@@ -223,10 +204,7 @@ void MainDlg::OnBnClickedMfcbuttonAdd()
 		return;
 	}
 
-	//	创建临时Student对象添加进系统
-	Student temp;
-	CString m_temp;
-
+	//	通过临时Student对象将这行记录添加进系统
 	temp.Num = m_Num;
 	temp.Grade = m_Gra;
 	temp.Name = m_Name;
@@ -241,13 +219,13 @@ void MainDlg::OnBnClickedMfcbuttonAdd()
 	temp.CPPT = m_CppT;
 	temp.CPP = cpp;
 
-	//将数据检查合理性后放进Managerment的对象ManagerSystem内
+	//	将数据检查合理性后放进Managerment的对象ManagerSystem内
 	if (ManagerSystem.Iscorrect(temp))
 	{
-		//在容器内添加数据
+		//	在容器内添加数据
 		ManagerSystem.AddData(temp);
 
-		//在界面列表控件中添加数据
+		//	在界面列表控件中添加数据
 		int nCount = m_List.GetItemCount();
 		m_List.InsertItem(nCount, m_Num);
 		m_List.SetItemText(nCount, 1, m_Gra);
@@ -255,13 +233,13 @@ void MainDlg::OnBnClickedMfcbuttonAdd()
 		m_List.SetItemText(nCount, 3, m_Name);
 		m_List.SetItemText(nCount, 4, m_Sex);
 
-		//将浮点型转为cstring型
+		//	将浮点型转为cstring型
 		m_temp.Format(_T("%.1f"), maths);
 		m_List.SetItemText(nCount, 5, m_temp);
 		m_temp.Format(_T("%.1f"), cpp);
 		m_List.SetItemText(nCount, 6, m_temp);
 
-		//更新学生人数
+		//	更新学生人数
 		m_STU.Format("%d", nCount+1);
 		SetDlgItemText(IDC_EDIT_STU, m_STU);
 	}
@@ -288,6 +266,7 @@ void MainDlg::OnBnClickedButtonEdit()
 
 	//	从编辑框获取数据
 	UpdateData(TRUE);
+
 	double maths = 0.4 * _tcstod(m_MathsD, NULL) + 0.6 * _tcstod(m_MathsT, NULL);
 	double cpp = 0.4 * _tcstod(m_CppD, NULL) + 0.6 * _tcstod(m_CppT, NULL);
 
@@ -300,19 +279,10 @@ void MainDlg::OnBnClickedButtonEdit()
 
 	//	获取数据放入临时对象
 	temp.Num = m_Num;
-	temp.Grade = m_Gra;
 	temp.Name = m_Name;
-	temp.Sex = m_Sex;
 	temp.Class = m_Class;
 	temp.CPP = cpp;
 	temp.maths = maths;
-
-	//	检查编辑后数据合理性
-	if (!(ManagerSystem.Iscorrect(temp)))
-	{
-		MessageBox(_T("学号雷同或成绩输入错误！请检查输入"), _T("提示"), MB_ICONWARNING);
-		return;
-	}
 	
 	//	利用管理系统的函数编辑容器
 	ManagerSystem.EditData(temp, m_Row);
@@ -574,37 +544,52 @@ void MainDlg::OnNMDblclkListShow(NMHDR* pNMHDR, LRESULT* pResult)
 	SetDlgItemText(IDC_EDIT_Name, temp.Name);
 	SetDlgItemText(IDC_EDIT_Num, temp.Num);
 	SetDlgItemText(IDC_EDIT_Class, temp.Class);
+	SetDlgItemText(IDC_EDIT_Mathsd, temp.mathsD);
+	SetDlgItemText(IDC_EDIT_Mathst, temp.mathsT);
+	SetDlgItemText(IDC_EDIT_Cppd, temp.CPPD);
+	SetDlgItemText(IDC_EDIT_Cppt, temp.CPPT);
 
 	CButton* Cwnd_radio_temp;
+
 	//	设置性别单选框
-	if (m_Sex == "男")
+	if (temp.Sex == "男")
 	{
 		//	获取单选框男的指针
 		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_SexMan);
 		Cwnd_radio_temp->SetCheck(TRUE);
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_SexWoman);
+		Cwnd_radio_temp->SetCheck(FALSE);
 	}
 	else
 	{
 		//	获取单选框女的指针
 		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_SexWoman);
 		Cwnd_radio_temp->SetCheck(TRUE);
+		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_SexMan);
+		Cwnd_radio_temp->SetCheck(FALSE);
 	}
+	
+	//	取消所有年级单选框选定（修复bug）
+	Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra1);
+	Cwnd_radio_temp->SetCheck(FALSE);
+	Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra2);
+	Cwnd_radio_temp->SetCheck(FALSE);
+	Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra3);
+	Cwnd_radio_temp->SetCheck(FALSE);
+	Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra4);
+	Cwnd_radio_temp->SetCheck(FALSE);
 
 	//	设置年级单选框
-	if (m_Gra == "大一")
+	if (temp.Grade == "大一")
 		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra1);
-	if (m_Gra == "大二")
+	else if (temp.Grade == "大二")
 		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra2);
-	if (m_Gra == "大三")
+	else if (temp.Grade == "大三")
 		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra3);
 	else
 		Cwnd_radio_temp = (CButton*)GetDlgItem(IDC_RADIO_Gra4);
-	Cwnd_radio_temp->SetCheck(TRUE);
 
-	SetDlgItemText(IDC_EDIT_Mathsd, temp.mathsD);
-	SetDlgItemText(IDC_EDIT_Mathst, temp.mathsT);
-	SetDlgItemText(IDC_EDIT_Cppd, temp.CPPD);
-	SetDlgItemText(IDC_EDIT_Cppt, temp.CPPT);
+	Cwnd_radio_temp->SetCheck(TRUE);
 
 	*pResult = 0;
 }

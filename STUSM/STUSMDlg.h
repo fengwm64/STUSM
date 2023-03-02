@@ -1,6 +1,5 @@
-
 // STUSMDlg.h : м╥нд╪Ч
-//
+
 
 #pragma once
 #include "afxbutton.h"
